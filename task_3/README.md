@@ -38,8 +38,8 @@ Mitigation should include handling of potential security issues in dApp logic wh
 Decentralized sequencing is planned (OP Stack roadmap). 
 
 ## Optimism-based DeFi projects: use case study 
-[Uniswap](https://uniswap.org/) on Optimism processed ~1.5 million swaps in a month (March 2023 data), averaging ~500 TPS during peak usage, [far exceeding Ethereum’s capacity](https://dune.com/queries/12345).
-On Ethereum, complex transactions like Uniswap swaps often cost $50-$100 during congestion (e.g., 2021 bull run, gas prices ~200 Gwei; https://etherscan.io/gastracker). On Optimism, the same swap costs $0.10-$1, as seen in real-time data from [L2Fees.info](https://l2fees.info/). For instance, a Uniswap V3 swap on Ethereum might cost 150,000 gas ($75 at 100 Gwei), while Optimism batches reduce this to 5,000 gas equivalent ($0.50).
+[Uniswap](https://uniswap.org/) on Optimism processed ~1.5 million swaps in a month (March 2023 data), averaging ~500 TPS during peak usage, far exceeding Ethereum’s capacity.
+On Ethereum, complex transactions like Uniswap swaps often cost $50-$100 during congestion (e.g., 2021 bull run, gas prices ~200 Gwei https://etherscan.io/gastracker). On Optimism, the same swap costs $0.10-$1, as seen in real-time data from [L2Fees.info](https://l2fees.info/). For instance, a Uniswap V3 swap on Ethereum might cost 150,000 gas ($75 at 100 Gwei), while Optimism batches reduce this to 5,000 gas equivalent ($0.50).
 A USDC transfer on Ethereum can cost $10-$20 (e.g., 50,000 gas at 100 Gwei), while on Optimism, it’s ~$0.05-$0.20, enabling micro-transactions.
 The 7-day challenge window delays L1 withdrawals unless bridged (for ex. Hop Protocol; https://hop.exchange/).
 Known bottlenecks:
@@ -48,7 +48,7 @@ Known bottlenecks:
 Optimism’s 10-100x TPS increase and gas savings (e.g., $50 to $0.50) make it a practical scaling solution, though latency and centralization remain challenges.
 
 [Aave](https://aave.com/).
-Offers lending/borrowing with fees dropping from $30-$70 to ~$0.30-$1 on Optimism (https://app.aave.com/markets/). Stablecoin transactions (for ex.) USDC and DAI transfers drop from $10-$20 on Ethereum to ~$0.05-$0.20 on Optimism (https://optimistic.etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48).
+Offers lending/borrowing with fees dropping from $30-$70 to ~$0.30-$1 on Optimism (https://app.aave.com/markets/). Stablecoin transactions (for ex.) USDC and DAI transfers drop from $10-$20 on Ethereum to ~$0.05-$0.20 on Optimism.
 
 [Arcadia Finance](https://arcadia.finance/).
 Native Optimism protocol for margin trading, leveraging low fees for liquidations (~$0.50 vs. $50 on Ethereum).
@@ -62,11 +62,11 @@ Starknet aims to address Ethereum’s scalability limitations while adding addit
 Starknet’s security and scalability rooted on its use of Zero-Knowledge Scalable Transparent Arguments of Knowledge (ZK-STARKs), a cutting-edge cryptographic proof system developed by StarkWare, the company behind Starknet.
 Unlike ZK-SNARKs (used by some other rollups), ZK-STARKs offer distinct advantages:
 * ZK-STARKs provide logarithmic verification complexity and proof size, meaning the computational effort to verify a proof grows very slowly relative to the size of the computation being proven. This enables Starknet to bundle thousands of transactions into a single proof and reduce on-chain costs sufficiently.
-* They are "transparent," requiring no trusted setup (unlike ZK-SNARKs), which enhances security and reduces complexity associated with bootsprapping of Trusted Setup (according to "STARKs vs. SNARKs" [Ref: https://starkware.co/stark-vs-snark/])
+* They are "transparent," requiring no trusted setup (unlike ZK-SNARKs), which enhances security and reduces complexity associated with bootsprapping of Trusted Setup (according to "STARKs vs. SNARKs" [Ref: https://hacken.io/discover/zk-snark-vs-zk-stark/])
 * ZK-STARKs rely on collision-resistant hash functions and on specific polynomial constraints used to describe problem domain in terms of polynomials. This technical innovation results in two main things. The lower number of circuits needed to model domain problem with polynomial constraints then SNARK's QAP (quadratic arithmetic programms), which are similar but restricted to model domain problem through quadratic polynomials. Combination of polynomial based problems and hash functions makes StarkNet resistant to potential attacker with quantum computer. While SNARK's are utilizing elliptical curve cryptography which is unsecure under quantum attacker assumptions. Further details stated "Cryptographic Building Blocks" [Ref: https://docs.starknet.io/documentation/architecture_and_concepts/cryptography/]] and in the original STARK paper by Eli Ben-Sasson et al., "Scalable, Transparent, and Post-Quantum Secure Computational Integrity" (2018) [Ref: https://eprint.iacr.org/2018/046]. 
 
-Starknet generates STARK proofs off-chain using a prover (e.g., the Stone Prover or its successor, [Stwo](https://github.com/starkware-libs/stwo)), which validates the integrity of a batch of transactions. These proofs are then submitted to Ethereum, where a Solidity-based STARK Verifier contract checks their validity. See "STARK Verifier" in Starknet docs [Ref: https://docs.starknet.io/documentation/architecture_and_concepts/rollups/#stark-verifier] and "Introducing Stwo" (2024) [Ref: https://starkware.co/blog/introducing-stwo/].
-The system itself uses Cairo, a Turing-complete programming language and virtual machine (VM) from StarkWare to write smart contracts and generate provable computations. Cairo’s intermediate representation (Sierra) ensures that every program execution can be proven efficiently. See "Cairo & Sierra" [Ref: https://docs.starknet.io/documentation/develop/cairo_and_sierra/].
+Starknet generates STARK proofs off-chain using a prover (e.g., the Stone Prover or its successor, [Stwo](https://github.com/starkware-libs/stwo)), which validates the integrity of a batch of transactions. These proofs are then submitted to Ethereum, where a Solidity-based STARK Verifier contract checks their validity. See "STARK Verifier" in Starknet docs [Ref: https://docs.starknet.io/architecture-and-concepts/provers-overview/] and "Introducing Stwo" (2024) [Ref: https://starkware.co/blog/introducing-stwo/].
+The system itself uses Cairo, a Turing-complete programming language and virtual machine (VM) from StarkWare to write smart contracts and generate provable computations. Cairo’s intermediate representation (Sierra) ensures that every program execution can be proven efficiently. See "Cairo & Sierra" [Ref: https://docs.starknet.io/architecture-and-concepts/smart-contracts/cairo-and-sierra/].
 
 The cryptography stack’s security is rooted in ZK-STARKs’ peer-reviewed properties [IACR 2018/046] and Starknet’s implementation specifics [starknet.io docs].
 
@@ -114,9 +114,9 @@ Starknet’s combination of security, scalability, and low costs makes it partic
 
 DeFi trading platform [dYdX](https://www.dydx.xyz/). Is highly benefit from Starknet's performance.
             
-Bitcoin + DeFi ("Starknet x Bitcoin" (2025) [Ref: https://starkware.co/blog/starknet-x-bitcoin/]). Starknet is poised to become the first L2 to settle on both Ethereum and Bitcoin (announced in early 2025). This opens the door to Bitcoin-native DeFi, such as using BTC as collateral for loans or trading derivatives.
+Bitcoin + DeFi (Starknet on Bitcoin and Ethereum (2025) [Ref: https://www.starknet.io/blog/starknet-bitcoin-scaling/]). Starknet is poised to become the first L2 to settle on both Ethereum and Bitcoin (announced in early 2025). This opens the door to Bitcoin-native DeFi, such as using BTC as collateral for loans or trading derivatives.
 With Bitcoin’s vast user base (potentially a billion users), Starknet can bring financial-grade functionality to a largely static asset.
-The trustless bridge (enabled by STARK proofs and potential Bitcoin covenants via OP_CAT, details in community discussions [Ref: https://community.starknet.io/t/bitcoin-integration/5678]) ensures Bitcoiners retain sovereignty while accessing DeFi, aligning with Bitcoin’s ethos. Bitcoin’s 7 TPS limit is bypassed, enabling complex financial applications without clogging the base layer.
+The trustless bridge (enabled by STARK proofs and potential Bitcoin covenants via OP_CAT, ensures Bitcoiners retain sovereignty while accessing DeFi, aligning with Bitcoin’s ethos. Bitcoin’s 7 TPS limit is bypassed, enabling complex financial applications without clogging the base layer.
 
 [Braavos](https://braavos.app/). Starknet wallet, integrates Bitcoin Lightning Network payments using STRK, allowing tap-and-pay functionality without extra setup. Reduced confirmation times and high throughput support real-time payments, rivaling traditional systems like Visa. Fraction of cent fees make cross-border remittances viable.
         

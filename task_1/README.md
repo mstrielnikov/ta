@@ -56,7 +56,7 @@ Contract deployed at address: 0x692ac2268B94DeA956BFFaDa3cDfBb36d1bA6c4a
 ```
 
 ## How would I scale using L2
-Scaling of the voting solution proposed make sense when smart contract's transaction throughput exceed ~one-hundred TPS (applicabaly to L1-ETH network), reaching such a fraction of L1-networks troughput which results in transaction commit delays and gas/commission starting to increase.
+Scaling of the voting solution proposed make sense when smart contract's transaction throughput exceed Ethereum’s base layer ~15-30 ts/s, or reaching such a fraction of L1-networks troughput which results in transaction commit delays and gas/commission starting to increase.
 To maintain the quality of user-experience, we want to keep smart contracts logic operational while handling targeted amount of transactions per second.
 One option is outsource the computation off-chain to L2.
 
@@ -70,6 +70,5 @@ It's the easiest to go solution on my feeling. Without additional context, utili
 Utilization of Optimistic Rollups may also work but I wouldn't recommend them to use in voting related use-cases. They are not a good fit there because of:
 * Delayed finality (7 days for ex.) 
 * Voters should be incentivised to question the process to spot illegal votes which increases overhead
-* May result in gas cost arise especially in case of disputes which may result into numeroues changes to reconcile voting reskts 
-* Lower security guarantees
-   
+* May result in gas cost arise especially in case of disputes which may result into numerous changes to reconcile voting results 
+* Lower security guarantees and spam-prone which may overload sequencer
