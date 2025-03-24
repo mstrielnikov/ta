@@ -19,17 +19,12 @@ def get_logs_transfer(contract: Contract, contract_address: str, from_block: int
 
 
 def analyze_token_transfers(web3_api: Web3, contract: Contract, contract_address: str):
-    """
-    Analyze token transfers for a given address.
-    """
-    # Define block range to analyze (e.g., last 1000 blocks or specific range)
+    # Define block range to analyze (last 1000 blocks or specific range)
     latest_block = web3_api.eth.block_number
     from_block = latest_block - 1000  # Adjust this range as needed
 
-    # Get Transfer events where contract_address is the sender
     transfer_logs = get_logs_transfer(contract, contract_address, from_block)
 
-    # Variables to store analysis results
     total_transfers = 0
     total_amount_sent = 0
     transfer_details = []
@@ -43,7 +38,7 @@ def analyze_token_transfers(web3_api: Web3, contract: Contract, contract_address
         timestamp = web3_api.eth.get_block(block_number).timestamp
         date_time = datetime.fromtimestamp(timestamp)
 
-        # Convert amount to human-readable format (assuming 6 decimals for USDC)
+        # Convert amount from wei/gwei to Eth
         amount_decimal = amount / 10**6
 
         print(f"Transfer at {date_time}: {sender} sent {amount_decimal} tokens to {recipient}")

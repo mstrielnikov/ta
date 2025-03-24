@@ -135,8 +135,7 @@ contract Voting {
         
         // Increment candidate votes
         candidates[_candidateId].voteCount++;
-        
-        // Increment total votes
+
         totalVotes++;
         emit VoteCast(msg.sender, candidates[_candidateId].addr);
     }
@@ -171,12 +170,10 @@ contract Voting {
     // Function to list all candidates
     function listCandidates() public view 
         returns (uint256[] memory ids, address[] memory addrs, uint256[] memory voteCounts) {
-        // Initialize arrays to store candidate information
         uint256[] memory candidateIds = new uint256[](candidates.length);
         address[] memory candidateAddrs = new address[](candidates.length);
         uint256[] memory candidateVoteCounts = new uint256[](candidates.length);
-        
-        // Populate arrays with candidate information
+
         for (uint256 i = 0; i < candidates.length; i++) {
             candidateIds[i] = i;
             candidateAddrs[i] = candidates[i].addr;

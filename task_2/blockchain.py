@@ -34,7 +34,6 @@ class BlockchainExplorer:
 
     def get_address_balance(self, address):
         try:
-            # Ensure address is checksummed
             checksum_address = self.web3.to_checksum_address(address)
             balance_wei = self.web3.eth.get_balance(checksum_address)
             balance_eth = self.web3.from_wei(balance_wei, 'ether')

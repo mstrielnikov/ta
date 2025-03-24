@@ -6,12 +6,12 @@ def read_file(filepath):
     with open(filepath) as f:
         return f.read()
 
-def solcx_compile(content, sol_version):
+def solcx_compile(smartcontract_filename, content, sol_version):
     try:
         compiled_sol = compile_standard(
             {
                 "language": "Solidity",
-                "sources": {"Election.sol": {"content": content}},
+                "sources": { smartcontract_filename: {"content": content}},
                 "settings": {
                     "outputSelection": {
                         "*": {
@@ -37,12 +37,10 @@ def deploy_contract_tx(w3, account, private_key, abi, bytecode):
         'chainId': w3.eth.chain_id
     })
 
-    # Sign and send the transaction
     signed_tx = w3.eth.account.sign_transaction(tx, private_key=private_key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
     print(f"Transaction hash: {w3.to_hex(tx_hash)}")
 
-    # Wait for the transaction receipt
     tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
     contract_address = tx_receipt.contractAddress
     print(f"Contract deployed at address: {contract_address}")

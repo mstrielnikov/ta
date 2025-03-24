@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ ! -f "./env" ]
+if [ ! -f "./.env" ]
 then
   echo ".env file with vars doesn't set" && exit 1;
 fi

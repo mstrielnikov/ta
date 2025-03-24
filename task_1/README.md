@@ -6,7 +6,7 @@ This workspace contains 3 directories:
 2. `scripts`: Contains script to deploy smart contract to Etherum network with helpers + requirements
 3. `artifacts`: Folder to store resulting artifact after smart contract compilation
 
-# Functionality 
+## Functionality 
 Smart contract (see `contracts/Election.sol`) follows the following logic:
 * In order to simulate voting, smart contract performs transition between 3 states (election phases):
   1. 'ballot' during which candidates are being registered + prevention of candidate double registration
@@ -19,7 +19,7 @@ Smart contract (see `contracts/Election.sol`) follows the following logic:
 Example of deployed smart contract:
 [0xd32731dA1D5c7C7d47e12bd098b38d61bae9D0A2](https://sepolia.etherscan.io/address/0xd32731dA1D5c7C7d47e12bd098b38d61bae9D0A2)
 
-# Build
+## Build
 _Attention_
 The `.env` file with the following content should be present in path `scripts/.env` to supply credentials during script startup:
 ```bash
@@ -55,4 +55,21 @@ Transaction hash: 0xe031ebfed787b4e711b162fcf7ba69d57b8b74566edb8ae7d191a859f629
 Contract deployed at address: 0x692ac2268B94DeA956BFFaDa3cDfBb36d1bA6c4a
 ```
 
-## How would I scale using L2 
+## How would I scale using L2
+Scaling of the voting solution proposed make sense when smart contract's transaction throughput exceed ~one-hundred TPS (applicabaly to L1-ETH network), reaching such a fraction of L1-networks troughput which results in transaction commit delays and gas/commission starting to increase.
+To maintain the quality of user-experience, we want to keep smart contracts logic operational while handling targeted amount of transactions per second.
+One option is outsource the computation off-chain to L2.
+
+Mostly ZK-sync based L2-options comes to my mind which can suit this porpose.  
+
+**Polygon-Based scaling**
+It's possible to deploy the given smart contract in Polygon keeping EVM compatibility. The less additional development is needed due to EVM compatibility. Gas pay are much lower. Higher demand can be handled by outsourcing transaction processing by side-chain.  
+Polygon shown to be proven solution to use cases like modern dApp and GameFi solutions (where a lot of voting may take a place by gamers, auctions etc).
+It's the easiest to go solution on my feeling. Without additional context, utilization of Polygon may cover the most of grow use cases or industries.
+
+Utilization of Optimistic Rollups may also work but I wouldn't recommend them to use in voting related use-cases. They are not a good fit there because of:
+* Delayed finality (7 days for ex.) 
+* Voters should be incentivised to question the process to spot illegal votes which increases overhead
+* May result in gas cost arise especially in case of disputes which may result into numeroues changes to reconcile voting reskts 
+* Lower security guarantees
+   

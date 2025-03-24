@@ -14,7 +14,8 @@ load_dotenv()
 WEB3_PROVIDER_URL = os.getenv("WEB3_PROVIDER_URL")
 PRIVATE_KEY = os.getenv("PRIVATE_KEY")
 ACCOUNT_ADDRESS = os.getenv("ACCOUNT_ADDRESS")
-SOLIDITY_CONTRACT_PATH = os.getenv("SOLIDITY_CONTRACT_PATH", "../contracts/Election.sol")
+SMARTCONTRACT_FILENAME="Election.sol"
+SOLIDITY_CONTRACT_PATH = os.getenv("SOLIDITY_CONTRACT_PATH", f"../contracts/{SMARTCONTRACT_FILENAME}")
 ARTIFACT_OUTPUT_PATH = os.getenv("ARTIFACT_OUTPUT_PATH", "../artifacts/voting_contract.json")
 SOLIDITY_VERSION = "0.8.2"
 
@@ -28,22 +29,18 @@ if not ACCOUNT_ADDRESS:
 if not os.path.exists(SOLIDITY_CONTRACT_PATH):
     raise FileNotFoundError(f"Solidity contract file not found: {SOLIDITY_CONTRACT_PATH}")
 
-# Convert ACCOUNT_ADDRESS to checksum format
 ACCOUNT_ADDRESS = Web3.to_checksum_address(ACCOUNT_ADDRESS)
 
 w3 = Web3(Web3.HTTPProvider(WEB3_PROVIDER_URL))
-# Check connection
 print(f"Connected to Sepolia: {w3.is_connected()}")
 if not w3.is_connected():
     raise Exception("Failed to connect to the Ethereum testnet")
 print(f"Chain ID: {w3.eth.chain_id}")
 print(f"Account balance: {w3.eth.get_balance(ACCOUNT_ADDRESS)} wei")
 
-# Set up account
 account = w3.eth.account.from_key(PRIVATE_KEY)
 w3.eth.default_account = account.address
 
-# Install Solidity compiler
 try:
     solcx.install_solc(SOLIDITY_VERSION)
     # print(f"Installed solc version: {solcx.get_solc_version()}")
@@ -54,14 +51,14 @@ except Exception as e:
 
 contract_content = read_file(SOLIDITY_CONTRACT_PATH)
 
-compiled_sol = solcx_compile(contract_content, SOLIDITY_VERSION)
+compiled_sol = solcx_compile(SMARTCONTRACT_FILENAME, contract_content, SOLIDITY_VERSION)
 
 bytecode = compiled_sol["contracts"]["Election.sol"]["Voting"]["evm"]["bytecode"]["object"]
 print("Compiled solidity contract bytecode:")
 print(bytecode)
 print(50 * "=")
 
-abi = jsonloads(compiled_sol["contracts"]["Election.sol"]["Voting"]["metadata"])["output"]["abi"]
+abi = jsonloads(compiled_sol["contracts"][SMARTCONTRACT_FILENAME]["Voting"]["metadata"])["output"]["abi"]
 print(jsonify(abi))
 print(50 * "=")
 
